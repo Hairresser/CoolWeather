@@ -4,7 +4,7 @@
 package com.example.love_people.coolweather.jsonbean;
 
 /**
- * Auto-generated: 2018-01-02 10:48:22
+ * Auto-generated: 2018-01-02 11:19:26
  *
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
