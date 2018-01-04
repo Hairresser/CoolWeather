@@ -1,6 +1,8 @@
 package com.example.love_people.coolweather;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.love_people.coolweather.gson.Forecast;
 import com.example.love_people.coolweather.gson.Weather;
 import com.example.love_people.coolweather.util.HttpUtil;
@@ -51,6 +54,12 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
         setContentView(R.layout.activity_weather);
 
         // 初始化各控件
@@ -67,6 +76,13 @@ public class WeatherActivity extends AppCompatActivity {
             String WeatherId = getIntent().getStringExtra("weather_id");
             mWeatherLayout.setVisibility(View.INVISIBLE);
             requestWeather(WeatherId);
+        }
+
+        String bingpic = prefs.getString("bing_pic", null);
+        if (bingpic != null){
+            Glide.with(this).load(bingpic).into(mBingPicImg);
+        }else {
+            loadBingPic();
         }
     }
     private void initView() {
@@ -173,7 +189,7 @@ public class WeatherActivity extends AppCompatActivity {
     /**
      * 加载必应每日一图
      */
-/*    private void loadBingPic() {
+   private void loadBingPic() {
         String requestBingPic = "http://guolin.tech/api/bing_pic";
         HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
             @Override
@@ -196,6 +212,6 @@ public class WeatherActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-    }*/
+    }
 
 }
